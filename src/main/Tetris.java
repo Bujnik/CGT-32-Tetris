@@ -79,15 +79,23 @@ public class Tetris {
      * One step of the game
      */
     public void step() {
-        // Drop the game piece lower
-
-        // If the game piece can't be placed in the current location:
-        // Put it back
-        // Land it
-        // If the game piece lands at the very top, then the game is over
-        // Remove the completed lines
-        // Create a new game piece
-
+        /**
+         * This method should drop the game piece down by one step.
+         *
+         * If the game piece cannot be placed in the new location, then:
+         * a) put it back (bring it back up)
+         * b) land it (the game piece "lands")
+         * c) delete all full lines in the field object
+         * d) create a new game piece to replace the previous one.
+         */
+        gamePiece.down();
+        if (!gamePiece.isCurrentPositionAvailable()){
+            gamePiece.up();
+            gamePiece.land();
+            isGameOver = gamePiece.getY() <= 1; // If the game piece lands at the very top, then the game is over
+            field.removeFullLines();
+            gamePiece = GamePieceFactory.createRandomGamePiece(field.getWidth() / 2, 0);
+        }
     }
 
     /**
